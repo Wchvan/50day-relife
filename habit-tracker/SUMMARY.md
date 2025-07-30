@@ -126,6 +126,133 @@ src/
   - `motto`: 座右铭
   - `avatarUrl`: 头像URL
 
+
+#### add-plan目录
+##### Header
+- **功能**：
+  - 显示页面标题
+  - 提供返回按钮
+  - 使用react-router-dom的navigate实现返回
+- **Props**：无
+
+##### PlanInfoSection
+- **功能**：
+  - 输入计划名称
+  - 选择计划图标
+  - 选择计划类型
+- **Props**：
+  - title: 计划名称
+  - setTitle: 名称更新函数
+  - planType: 计划类型
+  - setPlanType: 类型更新函数
+  - iconUrl: 图标URL
+  - setIconUrl: 图标更新函数
+
+##### PlanSettingsSection
+- **功能**：
+  - 设置开始日期
+  - 设置计划天数
+  - 设置提醒时间
+- **Props**：
+  - startDate: 开始日期
+  - setStartDate: 日期更新函数
+  - total: 计划天数
+  - setTotal: 天数更新函数
+  - reminderTime: 提醒时间
+  - setReminderTime: 提醒时间更新函数
+
+##### PlanDescriptionSection
+- **功能**：
+  - 输入计划描述
+  - 支持多行文本
+- **Props**：
+  - description: 描述内容
+  - setDescription: 描述更新函数
+
+##### RecommendedTemplatesSection
+- **功能**：
+  - 显示推荐模板列表
+  - 点击模板自动填充表单
+  - 支持键盘导航
+- **Props**：
+  - onTemplateClick: 模板选择回调
+
+##### SubmitButton
+- **功能**：
+  - 提交表单数据
+  - 显示剩余天数
+  - 处理提交结果
+- **Props**：
+  - days: 计划天数
+  - onSubmit: 提交回调函数
+
+
+### 页面实现
+#### HomePage
+- **功能**：
+  - 展示用户计划和任务概览
+  - 显示成就徽章
+  - 提供快速导航和添加功能
+- **子组件**：
+  - Header: 顶部用户信息
+  - PlanCard: 计划卡片
+  - TaskCard: 任务卡片
+  - BadgeCard: 成就徽章卡片
+  - SectionHeader: 区块标题
+  - BottomNav: 底部导航
+  - AddButton: 浮动添加按钮
+- **状态管理**：
+  - 使用PlanStore管理计划数据
+  - 使用AchievementStore管理成就数据
+- **交互功能**：
+  - 计划卡片点击查看详情
+  - 任务卡片点击打卡
+  - 底部导航切换页面
+
+#### PlanListPage
+- **功能**：
+  - 展示所有计划列表
+  - 支持按标签筛选
+  - 提供搜索功能
+- **子组件**：
+  - SearchBar: 搜索框
+  - TabBar: 标签筛选
+  - PlanCard: 计划卡片
+  - BottomNav: 底部导航
+  - AddButton: 添加按钮
+- **状态管理**：
+  - 使用PlanStore过滤计划数据
+- **交互功能**：
+  - 搜索框实时过滤
+  - 标签切换筛选计划
+  - 计划卡片点击查看详情
+  - 底部导航切换页面
+
+#### CreatePlanPage
+- **功能**：
+  - 创建新计划的完整表单页面
+  - 集成多个子组件实现完整功能
+  - 使用react-router-dom处理导航
+  - 支持模板选择自动填充
+- **子组件**：
+  - Header: 顶部返回导航
+  - PlanInfoSection: 计划基本信息输入
+  - PlanSettingsSection: 计划设置
+  - PlanDescriptionSection: 计划描述
+  - RecommendedTemplatesSection: 推荐模板选择
+  - SubmitButton: 表单提交
+
+### 回顾与补充
+- 已实现功能：
+  - 完整的创建计划流程
+  - 模板选择自动填充
+  - 表单验证
+  - 响应式布局
+- 技术实现：
+  - 使用React状态管理表单数据
+  - 通过PlanStore保存计划数据
+  - 使用react-router-dom管理导航状态
+
 ### 工具函数
 - `useTimer.ts`：封装定时提醒逻辑。
 - `useLocalStorage.ts`：封装本地存储逻辑。

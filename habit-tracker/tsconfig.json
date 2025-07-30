@@ -19,8 +19,11 @@
     "paths": {
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"]
-    }
+    },
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", "dist"],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "error"
+  }
 }

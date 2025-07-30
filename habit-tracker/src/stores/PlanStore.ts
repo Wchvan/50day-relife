@@ -6,7 +6,7 @@ export enum PlanStatus {
   Completed = 'completed'
 }
 
-interface Plan {
+export interface Plan {
   id: string;
   title: string;
   startDate: string;
@@ -15,6 +15,9 @@ interface Plan {
   iconUrl: string;
   checked: boolean;
   status: PlanStatus;
+  planType: string;
+  reminderTime: string;
+  description: string;
 }
 
 class PlanStore {
@@ -27,7 +30,10 @@ class PlanStore {
       total: 50, 
       iconUrl: 'https://cdn.qboost.woa.com/files/llmcode/2a9ce1/173e1d.png',
       checked: false,
-      status: PlanStatus.InProgress
+      status: PlanStatus.InProgress,
+      planType: '学习计划',
+      reminderTime: '08:00',
+      description: '每天阅读30页，培养阅读习惯'
     },
     { 
       id: '2', 
@@ -37,7 +43,10 @@ class PlanStore {
       total: 50, 
       iconUrl: 'https://cdn.qboost.woa.com/files/llmcode/2a9ce1/d609ca.png',
       checked: true,
-      status: PlanStatus.InProgress
+      status: PlanStatus.InProgress,
+      planType: '健康习惯',
+      reminderTime: '07:00',
+      description: '每日30分钟晨跑，增强体质'
     },
     { 
       id: '3', 
@@ -47,7 +56,10 @@ class PlanStore {
       total: 50, 
       iconUrl: 'https://cdn.qboost.woa.com/files/llmcode/2a9ce1/3bde81.png',
       checked: false,
-      status: PlanStatus.Completed
+      status: PlanStatus.Completed,
+      planType: '健康习惯',
+      reminderTime: '12:00',
+      description: '戒糖30天，减少糖分摄入'
     },
     { 
       id: '4', 
@@ -57,7 +69,10 @@ class PlanStore {
       total: 50, 
       iconUrl: 'https://cdn.qboost.woa.com/files/llmcode/2a9ce1/3bde81.png',
       checked: false,
-      status: PlanStatus.InProgress
+      status: PlanStatus.InProgress,
+      planType: '兴趣爱好',
+      reminderTime: '21:00',
+      description: '每天冥想10分钟，放松身心'
     }
   ];
 
@@ -76,6 +91,21 @@ class PlanStore {
       }
       return plan;
     });
+  }
+
+  addPlan(plan: Omit<Plan, 'id' | 'checked' | 'status' | 'current'>) {
+    if (!plan.title || !plan.planType || !plan.iconUrl || !plan.startDate || !plan.total || !plan.reminderTime || !plan.description) {
+      throw new Error('所有字段均为必填项');
+    }
+
+    const newPlan: Plan = {
+      ...plan,
+      id: Date.now().toString(),
+      checked: false,
+      status: PlanStatus.InProgress,
+      current: 0
+    };
+    this.plans.push(newPlan);
   }
 
   get unfinishedTasks() {
