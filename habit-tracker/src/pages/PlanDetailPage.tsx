@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { usePlanStore } from '../stores/PlanStore';
+import { usePlanStore, PlanStatus } from '../stores/PlanStore';
 import Header from '../components/plan-detail/Header';
 import PlanInfoCard from '../components/plan-detail/PlanInfoCard';
 import ProgressCircle from '../components/plan-detail/ProgressCircle';
@@ -45,7 +45,7 @@ const PlanDetailPage: React.FC = observer(() => {
 
   const handleCheckin = () => {
     if (planId) {
-      planStore.checkTask(planId);
+      navigate(`/check-in?id=${planId}`);
     }
   };
 
@@ -102,6 +102,8 @@ const PlanDetailPage: React.FC = observer(() => {
       <CheckinButton 
         onCheckin={handleCheckin} 
         isCheckedToday={isCheckedToday} 
+        isCompleted={planData.status === PlanStatus.Completed}
+        isAbandoned={planData.isAbandoned}
       />
     </div>
   );

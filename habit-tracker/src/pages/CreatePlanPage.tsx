@@ -9,14 +9,14 @@ import SubmitButton from '../components/add-plan/SubmitButton';
 import { usePlanStore } from '../stores/PlanStore';
 import { Plan } from '../stores/PlanStore';
 
-type Template = Omit<Plan, 'id' | 'checked' | 'status' | 'current'>;
+type Template = Pick<Plan, 'title' | 'planType' | 'iconUrl' | 'startDate' | 'total' | 'reminderTime' | 'description'>;
 
 const CreatePlanPage: React.FC = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [planType, setPlanType] = useState('健康习惯');
   const [iconUrl, setIconUrl] = useState('');
-  const [startDate, setStartDate] = useState('2023-10-20');
+  const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
   const [total, setTotal] = useState(50);
   const [reminderTime, setReminderTime] = useState('08:00');
   const [description, setDescription] = useState('');
@@ -28,7 +28,7 @@ const CreatePlanPage: React.FC = () => {
     setPlanType(template.planType);
     setIconUrl(template.iconUrl);
     setStartDate(new Date().toISOString().split('T')[0]);
-    setTotal(30); // 默认30天
+    setTotal(50); // 默认30天
     setReminderTime(template.reminderTime);
     setDescription(template.description);
   };
@@ -42,7 +42,20 @@ const CreatePlanPage: React.FC = () => {
         startDate,
         total,
         reminderTime,
-        description
+        description,
+        category: '默认分类',  // 补充缺失的必需属性
+        endDate: new Date(Date.now() + total * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 默认30天后结束
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+        currentDay: new Date().getDate(),
+        checkedDays: [],
+        records: [],
+        statistics: {
+          consecutiveDays: 0,
+          longestStreak: 0,
+          completionRate: 0,
+          weeklyData: [0, 0, 0, 0, 0, 0, 0]
+        }
       });
       console.log('计划已保存');
       navigate(-1); // 添加返回逻辑

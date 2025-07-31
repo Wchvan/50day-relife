@@ -24,6 +24,10 @@ const HomePage: React.FC = observer(() => {
     navigate(`/plan-detail?id=${id}`);
   };
 
+  const handleCheckin = (id: string) => {
+    navigate(`/check-in?id=${id}`);
+  };
+
   return (
     <>
       <Header />
@@ -57,7 +61,7 @@ const HomePage: React.FC = observer(() => {
                 key={task.id}
                 title={task.title}
                 checked={task.checked}
-                onCheck={() => planStore.checkTask(task.id)}
+                onCheck={() => handleCheckin(task.id)}
                 onClick={() => handleTaskClick(task.id)}
               />
             ))}

@@ -1,10 +1,6 @@
 import React from 'react';
-
-interface CheckinMood {
-  text: string;
-  color: string;
-  bgColor: string;
-}
+import { MOOD_CONFIG } from '../../stores/PlanStore';
+import type { MoodType } from '../../stores/PlanStore';
 
 interface CheckinImage {
   url: string;
@@ -15,8 +11,9 @@ interface CheckinImage {
 interface CheckinRecordItem {
   date: string;
   time: string;
-  mood: CheckinMood;
+  mood: MoodType;
   content: string;
+  tags?: string[];
   images?: CheckinImage[];
 }
 
@@ -26,14 +23,6 @@ interface CheckinRecordProps {
 }
 
 const CheckinRecord: React.FC<CheckinRecordProps> = ({ records, onViewMore }) => {
-  // 根据心情类型返回对应的样式
-  const getMoodStyle = (mood: CheckinMood) => {
-    return {
-      text: `text-${mood.color}`,
-      bg: `bg-${mood.bgColor}`
-    };
-  };
-  
   return (
     <div className="bg-white rounded-xl p-4 shadow-sm w-full">
       <h3 className="font-medium text-gray-800 mb-4">打卡记录</h3>
@@ -50,21 +39,32 @@ const CheckinRecord: React.FC<CheckinRecordProps> = ({ records, onViewMore }) =>
               />
             </div>
             
-            <div className="bg-gray-50 rounded-lg p-3">
+            <div className="bg-gray-50 rounded-lg p-3 text-left">
               <div className="flex justify-between items-start">
                 <div>
                   <h4 className="font-medium text-gray-800">{record.date}</h4>
                   <p className="text-xs text-gray-500 mt-1">{record.time} 打卡</p>
                 </div>
                 
-                {record.mood && (
-                  <span className={`px-2 py-1 rounded-full text-xs ${getMoodStyle(record.mood).bg} ${getMoodStyle(record.mood).text}`}>
-                    {record.mood.text}
-                  </span>
-                )}
+                <span className={`px-2 py-1 rounded-full text-xs ${MOOD_CONFIG[record.mood].bgColor} ${MOOD_CONFIG[record.mood].color}`}>
+                  {MOOD_CONFIG[record.mood].text}
+                </span>
               </div>
               
               <p className="text-sm text-gray-600 mt-2">{record.content}</p>
+              
+              {record.tags && record.tags.length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {record.tags.map((tag, tagIndex) => (
+                    <span 
+                      key={tagIndex}
+                      className="px-2 py-1 rounded-full text-xs bg-gray-200 text-gray-700"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
               
               {record.images && record.images.length > 0 && (
                 <div className="mt-2 flex gap-2">

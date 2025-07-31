@@ -349,6 +349,74 @@ src/
   - onCheckin: 打卡回调函数
   - isCheckedToday: 是否已打卡
 
+### 新增功能：打卡页面实现
+
+#### CheckinPage
+- **功能**：
+  - 提供完整的打卡功能界面
+  - 集成心情选择、日记输入、图片上传和标签选择
+  - 处理打卡数据提交
+- **子组件**：
+  - Header: 顶部导航栏
+  - MoodSelector: 心情选择器
+  - JournalInput: 日记输入框
+  - ImageUploader: 图片上传组件
+  - TagSelector: 标签选择器
+  - CheckinButton: 底部打卡按钮
+- **状态管理**：
+  - 使用PlanStore管理打卡数据
+  - 通过URL参数获取计划ID
+  - 使用React状态管理表单数据
+- **交互功能**：
+  - 心情选择支持5种状态
+  - 日记输入支持多行文本
+  - 图片上传支持多张图片
+  - 标签选择支持多选
+  - 打卡按钮根据状态显示不同样式
+
+#### check-in目录组件
+##### MoodSelector
+- **功能**：
+  - 提供5种心情状态选择
+  - 使用MOOD_CONFIG管理心情配置
+  - 支持无障碍访问
+- **Props**：
+  - onMoodChange: 心情选择回调
+
+##### JournalInput
+- **功能**：
+  - 多行文本输入框
+  - 支持字数统计
+  - 自动调整高度
+- **Props**：
+  - onContentChange: 内容变化回调
+
+##### ImageUploader
+- **功能**：
+  - 支持多张图片上传
+  - 显示缩略图
+  - 支持删除已上传图片
+- **Props**：无
+
+##### TagSelector
+- **功能**：
+  - 提供标签多选功能
+  - 支持自定义标签
+  - 使用chips样式展示已选标签
+- **Props**：
+  - onTagsChange: 标签变化回调
+
+##### CheckinButton
+- **功能**：
+  - 底部固定打卡按钮
+  - 根据打卡状态显示不同文本和样式
+  - 处理已完成/已放弃状态
+- **Props**：
+  - onCheckin: 打卡回调
+  - isCheckedToday: 是否已打卡
+  - isCompleted: 是否已完成
+  - isAbandoned: 是否已放弃
+
 ### 回顾与补充
 - 新增功能：
   - 完整的计划详情展示

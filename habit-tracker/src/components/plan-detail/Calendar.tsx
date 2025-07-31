@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 interface CalendarProps {
   year: number;
   month: number;
-  checkedDays: number[];
+  checkedDays: string[]; // 修改为日期字符串数组
   currentDay: number;
 }
 
@@ -68,12 +68,13 @@ const Calendar: React.FC<CalendarProps> = ({
   
   const calendarDays = generateCalendarDays();
   
-  // 判断日期状态
+  // 修改 getDayStatus 方法
   const getDayStatus = (day: number | null) => {
     if (day === null) return 'empty';
     
+    const dateStr = `${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const isToday = day === currentDay && currentMonth === month && currentYear === year;
-    const isChecked = checkedDays.includes(day);
+    const isChecked = checkedDays.includes(dateStr);
     const isPast = currentYear < year || (currentYear === year && currentMonth < month) || 
                   (currentYear === year && currentMonth === month && day < currentDay);
     const isFuture = !isPast && !isToday;
