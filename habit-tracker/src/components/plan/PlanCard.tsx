@@ -7,6 +7,7 @@ interface PlanCardProps {
   current: number;
   total: number;
   status: PlanStatus;
+  onClick: () => void;
 }
 
 const PlanCard: React.FC<PlanCardProps> = ({
@@ -14,14 +15,28 @@ const PlanCard: React.FC<PlanCardProps> = ({
   startDate,
   current,
   total,
-  status
+  status,
+  onClick
 }) => {
   const progressPercent = Math.round((current / total) * 100);
   const remainingDays = total - current;
   const isCompleted = status === PlanStatus.Completed;
   
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      onClick();
+    }
+  };
+  
   return (
-    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 relative">
+    <div 
+      className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 relative cursor-pointer"
+      onClick={onClick}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      role="button"
+      aria-label={`查看计划详情：${title}`}
+    >
       {isCompleted && (
         <div className="absolute top-4 right-4 w-6 h-6">
           <img 

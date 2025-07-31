@@ -4,12 +4,24 @@ interface TaskCardProps {
   title: string;
   checked: boolean;
   onCheck: () => void;
+  onClick?: () => void;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ title, checked, onCheck }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ title, checked, onCheck, onClick }) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      onClick?.();
+    }
+  };
+
   return (
     <div 
       className={`bg-white rounded-xl shadow-sm p-5 mb-3 flex justify-between items-center w-full h-[84px] ${checked ? 'border-l-4 border-green-100' : 'border-l-4 border-pink-300'}`}
+      onClick={onClick}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      role="button"
+      aria-label={`查看任务详情：${title}`}
     >
       <div className="flex flex-col gap-1">
         <h3 className="font-medium text-base text-gray-800 m-0">{title}</h3>
@@ -29,7 +41,10 @@ const TaskCard: React.FC<TaskCardProps> = ({ title, checked, onCheck }) => {
       ) : (
         <button 
           className="bg-green-500 text-white rounded-full px-4 py-2 font-medium text-sm cursor-pointer" 
-          onClick={onCheck}
+          onClick={(e) => {
+            e.stopPropagation();
+            onCheck();
+          }}
         >
           打卡
         </button>

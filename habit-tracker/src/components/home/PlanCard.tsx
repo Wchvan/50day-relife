@@ -5,13 +5,27 @@ interface PlanCardProps {
   current: number;
   total: number;
   iconUrl?: string;
+  onClick?: () => void;
 }
 
-const PlanCard: React.FC<PlanCardProps> = ({ title, current, total, iconUrl }) => {
+const PlanCard: React.FC<PlanCardProps> = ({ title, current, total, iconUrl, onClick }) => {
   const progressPercentage = (current / total) * 100;
   
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      onClick?.();
+    }
+  };
+  
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 w-[200px] h-[102px] border border-gray-100 flex-shrink-0">
+    <div 
+      className="bg-white rounded-xl shadow-sm p-4 w-[200px] h-[102px] border border-gray-100 flex-shrink-0 cursor-pointer"
+      onClick={onClick}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      role="button"
+      aria-label={`查看计划详情：${title}`}
+    >
       <div className="flex justify-between items-center mb-3">
         <h3 className="font-medium text-base text-gray-800 m-0">{title}</h3>
         {iconUrl && <img src={iconUrl} alt="" className="w-3.5 h-4" />}

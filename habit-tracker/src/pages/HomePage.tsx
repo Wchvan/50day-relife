@@ -1,5 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/home/Header';
 import PlanCard from '@/components/home/PlanCard';
 import TaskCard from '@/components/home/TaskCard';
@@ -10,9 +11,18 @@ import SectionHeader from '@/components/home/SectionHeader';
 import { usePlanStore } from '@/stores/PlanStore';
 import { useAchievementStore } from '@/stores/AchievementStore';
 
-const HomePage: React.FC = () => {
+const HomePage: React.FC = observer(() => {
+  const navigate = useNavigate();
   const planStore = usePlanStore();
   const achievementStore = useAchievementStore();
+
+  const handlePlanClick = (id: string) => {
+    navigate(`/plan-detail?id=${id}`);
+  };
+
+  const handleTaskClick = (id: string) => {
+    navigate(`/plan-detail?id=${id}`);
+  };
 
   return (
     <>
@@ -23,16 +33,17 @@ const HomePage: React.FC = () => {
           <SectionHeader
             title='我的计划'
             showViewAll
-            onViewAllClick={() => console.log('查看全部计划')}
+            onViewAllClick={() => navigate('/plan')}
           />
           <div className="overflow-x-auto -mx-4 px-4 flex gap-4 [&::-webkit-scrollbar]:hidden">
-            {planStore.plans.map((plan) => (
+            {planStore.plans.slice(0, 3).map((plan) => (
               <PlanCard
                 key={plan.id}
                 title={plan.title}
                 current={plan.current}
                 total={plan.total}
                 iconUrl={plan.iconUrl}
+                onClick={() => handlePlanClick(plan.id)}
               />
             ))}
           </div>
@@ -41,12 +52,13 @@ const HomePage: React.FC = () => {
         <section className="mb-6">
           <SectionHeader title='今日任务' />
           <div>
-            {planStore.unfinishedTasks.map((plan) => (
+            {planStore.unfinishedTasks.map((task) => (
               <TaskCard
-                key={plan.id}
-                title={plan.title}
-                checked={plan.checked}
-                onCheck={() => planStore.checkTask(plan.id)}
+                key={task.id}
+                title={task.title}
+                checked={task.checked}
+                onCheck={() => planStore.checkTask(task.id)}
+                onClick={() => handleTaskClick(task.id)}
               />
             ))}
           </div>
@@ -72,6 +84,6 @@ const HomePage: React.FC = () => {
       <BottomNav/>
     </>
   );
-};
+});
 
-export default observer(HomePage);
+export default HomePage;
