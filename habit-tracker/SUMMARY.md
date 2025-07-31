@@ -30,6 +30,17 @@ src/
 │   │   ├── CheckinRecord.tsx
 │   │   ├── Statistics.tsx
 │   │   └── CheckinButton.tsx
+│   ├── stats/        # 统计相关组件
+│   │   ├── CompletionRate.tsx
+│   │   ├── CompletionTrend.tsx
+│   │   ├── HabitAnalysis.tsx
+│   │   └── AchievementProgress.tsx
+│   ├── profile/      # 个人中心相关组件
+│   │   ├── UserCard.tsx
+│   │   ├── BadgeWall.tsx
+│   │   ├── DataOverview.tsx
+│   │   ├── FeatureList.tsx
+│   │   └── CommunitySharing.tsx
 │   └── add-plan/     # 添加计划组件
 │       ├── Header.tsx
 │       ├── PlanInfoSection.tsx
@@ -44,7 +55,9 @@ src/
 │   ├── HomePage.tsx
 │   ├── PlanListPage.tsx
 │   ├── CreatePlanPage.tsx
-│   └── PlanDetailPage.tsx
+│   ├── PlanDetailPage.tsx
+│   ├── ProfilePage.tsx
+│   └── StatsPage.tsx
 ├── stores/           # 状态管理
 │   ├── PlanStore.ts
 │   ├── AchievementStore.ts
@@ -146,6 +159,81 @@ src/
   - `motto`: 座右铭
   - `avatarUrl`: 头像URL
 
+#### stats目录组件
+##### CompletionRate
+- **功能**：
+  - 使用图表展示计划完成率
+  - 支持动态数据更新
+- **Props**：
+  - `data`: 完成率数据
+  - `onDataChange`: 数据更新回调
+
+##### CompletionTrend
+- **功能**：
+  - 展示计划完成趋势
+  - 支持时间范围筛选
+- **Props**：
+  - `data`: 趋势数据
+  - `onRangeChange`: 时间范围回调
+
+##### HabitAnalysis
+- **功能**：
+  - 分析习惯打卡频率
+  - 提供可视化图表
+- **Props**：
+  - `data`: 习惯数据
+  - `onFilterChange`: 筛选回调
+
+##### AchievementProgress
+- **功能**：
+  - 展示成就解锁进度
+  - 支持动态更新
+- **Props**：
+  - `data`: 成就数据
+  - `onUpdate`: 更新回调
+
+#### profile目录组件
+##### UserCard
+- **功能**：
+  - 展示用户基本信息
+  - 支持头像和座右铭
+- **Props**：
+  - `userName`: 用户名
+  - `motto`: 座右铭
+  - `avatarUrl`: 头像URL
+
+##### BadgeWall
+- **功能**：
+  - 展示用户已解锁徽章
+  - 支持徽章点击事件
+- **Props**：
+  - `badges`: 徽章列表
+  - `onBadgeClick`: 徽章点击回调
+
+##### DataOverview
+- **功能**：
+  - 展示用户数据概览
+  - 包括完成计划数和打卡天数
+- **Props**：
+  - `completedPlans`: 完成计划数
+  - `totalCheckinDays`: 打卡天数
+
+##### FeatureList
+- **功能**：
+  - 展示功能列表
+  - 支持点击跳转
+- **Props**：
+  - `items`: 功能列表
+  - `onItemClick`: 点击回调
+
+##### CommunitySharing
+- **功能**：
+  - 展示社区分享内容
+  - 支持点赞和评论
+- **Props**：
+  - `posts`: 分享内容
+  - `onLike`: 点赞回调
+  - `onComment`: 评论回调
 
 #### add-plan目录
 ##### Header
@@ -283,6 +371,44 @@ src/
   - 点击打卡按钮更新打卡状态
   - 自动同步路由变化与导航状态
   - 根据打卡状态显示不同按钮样式
+
+#### ProfilePage
+- **功能**：
+  - 展示用户个人中心页面
+  - 显示用户信息、徽章墙、数据概览和功能列表
+- **子组件**：
+  - Header: 顶部导航栏
+  - UserCard: 用户信息卡片
+  - BadgeWall: 徽章墙
+  - DataOverview: 数据概览
+  - FeatureList: 功能列表
+  - CommunitySharing: 社区分享
+  - BottomNav: 底部导航
+- **状态管理**：
+  - 使用 `UserStore` 获取用户数据
+  - 通过 `useUserStore` Hook 访问用户信息
+- **交互功能**：
+  - 用户信息动态更新
+  - 徽章墙展示已解锁徽章
+  - 数据概览显示完成计划、打卡天数和最长连续打卡
+
+#### StatsPage
+- **功能**：
+  - 展示统计数据页面
+  - 显示完成率、完成趋势、习惯分析和成就进度
+- **子组件**：
+  - Header: 顶部导航栏
+  - CompletionRate: 完成率图表
+  - CompletionTrend: 完成趋势图表
+  - HabitAnalysis: 习惯分析图表
+  - AchievementProgress: 成就进度图表
+  - BottomNav: 底部导航
+- **状态管理**：
+  - 使用 `PlanStore` 获取计划数据
+  - 使用 `AchievementStore` 获取成就数据
+- **交互功能**：
+  - 图表动态展示数据
+  - 支持数据筛选和切换
 
 #### 组件实现
 ##### Header
