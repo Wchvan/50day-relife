@@ -15,16 +15,36 @@
 ```
 src/
 ├── components/       # UI 组件
-│   ├── PlanCard.tsx
-│   ├── BadgeCard.tsx
-│   ├── TaskCard.tsx
-│   ├── BottomNav.tsx
-│   ├── AddButton.tsx
-│   ├── SectionHeader.tsx
-│   └── Header.tsx
+│   ├── common/       # 通用组件
+│   │   ├── BottomNav.tsx
+│   │   ├── AddButton.tsx
+│   │   └── Header.tsx
+│   ├── plan/         # 计划相关组件
+│   │   ├── PlanCard.tsx
+│   │   └── SectionHeader.tsx
+│   ├── plan-detail/  # 计划详情组件
+│   │   ├── Header.tsx
+│   │   ├── PlanInfoCard.tsx
+│   │   ├── ProgressCircle.tsx
+│   │   ├── Calendar.tsx
+│   │   ├── CheckinRecord.tsx
+│   │   ├── Statistics.tsx
+│   │   └── CheckinButton.tsx
+│   └── add-plan/     # 添加计划组件
+│       ├── Header.tsx
+│       ├── PlanInfoSection.tsx
+│       ├── PlanSettingsSection.tsx
+│       ├── PlanDescriptionSection.tsx
+│       ├── RecommendedTemplatesSection.tsx
+│       └── SubmitButton.tsx
 ├── containers/       # 容器组件
 │   ├── PlanContainer.tsx
 │   └── StatsContainer.tsx
+├── pages/            # 页面组件
+│   ├── HomePage.tsx
+│   ├── PlanListPage.tsx
+│   ├── CreatePlanPage.tsx
+│   └── PlanDetailPage.tsx
 ├── stores/           # 状态管理
 │   ├── PlanStore.ts
 │   ├── AchievementStore.ts
@@ -242,7 +262,103 @@ src/
   - RecommendedTemplatesSection: 推荐模板选择
   - SubmitButton: 表单提交
 
+#### PlanDetailPage
+- **功能**：
+  - 展示计划详情页面
+  - 显示计划基本信息、进度、打卡日历和统计
+  - 提供打卡功能
+- **子组件**：
+  - Header: 顶部导航栏
+  - PlanInfoCard: 计划信息卡片
+  - ProgressCircle: 进度圆环
+  - Calendar: 打卡日历
+  - CheckinRecord: 打卡记录
+  - Statistics: 统计数据
+  - CheckinButton: 底部打卡按钮
+- **状态管理**：
+  - 使用PlanStore管理计划数据
+  - 通过URL参数获取计划ID
+  - 使用mobx observer响应状态变化
+- **交互功能**：
+  - 点击打卡按钮更新打卡状态
+  - 自动同步路由变化与导航状态
+  - 根据打卡状态显示不同按钮样式
+
+#### 组件实现
+##### Header
+- **功能**：
+  - 显示返回按钮和分享按钮
+  - 使用react-router-dom处理导航
+- **Props**：
+  - onBack: 返回回调函数
+  - onShare: 分享回调函数
+
+##### PlanInfoCard
+- **功能**：
+  - 显示计划类别、起止日期
+  - 提供编辑和提醒设置按钮
+- **Props**：
+  - category: 计划类别
+  - startDate: 开始日期
+  - endDate: 结束日期
+  - onEdit: 编辑回调
+  - onRemind: 提醒设置回调
+
+##### ProgressCircle
+- **功能**：
+  - 圆形进度条展示完成进度
+  - 计算并显示完成百分比
+- **Props**：
+  - current: 当前完成天数
+  - total: 总天数
+
+##### Calendar
+- **功能**：
+  - 日历形式展示打卡记录
+  - 高亮显示已打卡日期
+- **Props**：
+  - year: 年份
+  - month: 月份
+  - checkedDays: 已打卡日期数组
+  - currentDay: 当前日期
+
+##### CheckinRecord
+- **功能**：
+  - 列表形式展示打卡记录
+  - 显示打卡时间和心情状态
+- **Props**：
+  - records: 打卡记录数组
+  - onViewMore: 查看更多回调
+
+##### Statistics
+- **功能**：
+  - 展示连续打卡天数等统计数据
+  - 使用图表展示每周打卡趋势
+- **Props**：
+  - consecutiveDays: 连续打卡天数
+  - longestStreak: 最长连续打卡
+  - completionRate: 完成率
+  - weeklyData: 每周打卡数据
+
+##### CheckinButton
+- **功能**：
+  - 底部固定打卡按钮
+  - 根据打卡状态显示不同样式
+  - 处理打卡逻辑
+- **Props**：
+  - onCheckin: 打卡回调函数
+  - isCheckedToday: 是否已打卡
+
 ### 回顾与补充
+- 新增功能：
+  - 完整的计划详情展示
+  - 打卡状态实时更新
+  - 自动同步路由与导航状态
+- 技术实现：
+  - 使用mobx observer实现响应式UI
+  - 通过URL参数传递计划ID
+  - 使用react-router-dom管理导航
+  - 严格遵循无障碍标准
 - 已实现功能：
   - 完整的创建计划流程
   - 模板选择自动填充
